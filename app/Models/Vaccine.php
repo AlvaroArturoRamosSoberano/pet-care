@@ -13,7 +13,8 @@ class Vaccine extends Model
 
     protected $fillable = ['name'];
 
-    public function petVaccines(){
+    public function petVaccines()
+    {
         return $this->hasMany(Pets_vaccines::class);
     }
 }

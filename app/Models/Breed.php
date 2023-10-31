@@ -13,7 +13,8 @@ class breed extends Model
 
     protected $fillable = ['name'];
 
-    public function petBreeds(){
+    public function petBreeds()
+    {
         return $this->hasMany(Pets_breeds::class);
     }
 }

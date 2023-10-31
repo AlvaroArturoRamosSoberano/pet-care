@@ -13,7 +13,7 @@ class Pet extends Model
     use SoftDeletes;
 
     protected $fillable = ['pet_name', 'birthday', 'specie_id', 'hair_color', 'image_path'];
-    
+
     public function client()
     {
         return $this->belongsTo(Client::class);
@@ -34,7 +34,8 @@ class Pet extends Model
     {
         return $this->hasMany(Pets_breeds::class);
     }
-    public function medical_records() {
+    public function medical_records()
+    {
         return $this->hasMany(Medical_record::class);
     }
 }

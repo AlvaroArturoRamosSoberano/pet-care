@@ -13,7 +13,8 @@ class Disease extends Model
 
     protected $fillable = ['name', 'description', 'symptom'];
 
-    public function medical_records() {
+    public function medical_records()
+    {
         return $this->hasMany(Medical_record::class);
     }
 }
