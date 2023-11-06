@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiseaseStoreRequest;
 use App\Models\Disease;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ class DiseaseController extends Controller
     public function index()
     {
         //
+        return Disease::all();
     }
 
     /**
@@ -26,9 +28,11 @@ class DiseaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DiseaseStoreRequest $request)
     {
         //
+        $diseases = Disease::create($request->validated());
+        return $diseases;
     }
 
     /**
@@ -37,6 +41,7 @@ class DiseaseController extends Controller
     public function show(Disease $disease)
     {
         //
+        return $disease;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetBreedStoreRequest;
 use App\Models\Pets_breeds;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ class PetsBreedsController extends Controller
     public function index()
     {
         //
+        return Pets_breeds::all();
     }
 
     /**
@@ -26,9 +28,11 @@ class PetsBreedsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetBreedStoreRequest $request)
     {
         //
+        $pet_breeds = Pets_breeds::create($request->validated());
+        return $pet_breeds;
     }
 
     /**
@@ -37,6 +41,7 @@ class PetsBreedsController extends Controller
     public function show(Pets_breeds $pets_breeds)
     {
         //
+        return $pets_breeds;
     }
 
     /**

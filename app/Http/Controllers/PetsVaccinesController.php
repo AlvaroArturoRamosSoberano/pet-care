@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetVaccineStoreRequest;
 use App\Models\Pets_vaccines;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ class PetsVaccinesController extends Controller
     public function index()
     {
         //
+        return Pets_vaccines::all();
     }
 
     /**
@@ -26,9 +28,11 @@ class PetsVaccinesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetVaccineStoreRequest $request)
     {
         //
+        $pet_vaccines = Pets_vaccines::create($request->validated());
+        return $pet_vaccines;
     }
 
     /**
@@ -37,6 +41,7 @@ class PetsVaccinesController extends Controller
     public function show(Pets_vaccines $pets_vaccines)
     {
         //
+        return  $pets_vaccines;
     }
 
     /**

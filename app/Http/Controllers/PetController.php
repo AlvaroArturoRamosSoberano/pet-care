@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetStoreRequest;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ class PetController extends Controller
     public function index()
     {
         //
+        return Pet::all();
     }
 
     /**
@@ -26,9 +28,11 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetStoreRequest $request)
     {
         //
+        $pets = Pet::create($request->validated());
+        return $pets;
     }
 
     /**
@@ -37,6 +41,7 @@ class PetController extends Controller
     public function show(Pet $pet)
     {
         //
+        return $pet;
     }
 
     /**

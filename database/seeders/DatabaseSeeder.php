@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             $petsBreed->breed_id = $breed->id;
             $petsBreed->save();
         });
-        
+
         Pets_vaccines::factory()->times(20)->create()->each(function ($petsVaccine) {
             $pet = Pet::inRandomOrder()->first();
             $vaccine = Vaccine::inRandomOrder()->first();
@@ -63,11 +63,11 @@ class DatabaseSeeder extends Seeder
             $petsVaccine->vaccine_id = $vaccine->id;
             $petsVaccine->save();
         });
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }

@@ -13,6 +13,7 @@ class SpecieController extends Controller
     public function index()
     {
         //
+        return Specie::all();
     }
 
     /**
@@ -37,6 +38,7 @@ class SpecieController extends Controller
     public function show(Specie $specie)
     {
         //
+        return $specie;
     }
 
     /**

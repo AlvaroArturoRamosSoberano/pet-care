@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BreedStoreRequest;
-use App\Models\Breed;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class BreedController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function users(Request $request)
+    {
+        $users = User::all();
+
+        return response()->json($users);
+    }
     public function index()
     {
         //
-        return Breed::all();
+
     }
 
     /**
@@ -28,26 +33,23 @@ class BreedController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BreedStoreRequest $request)
+    public function store(Request $request)
     {
         //
-        $breeds = Breed::create($request->validated());
-        return $breeds;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Breed $breed)
+    public function show(User $user)
     {
         //
-        return $breed;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Breed $breed)
+    public function edit(User $user)
     {
         //
     }
@@ -55,7 +57,7 @@ class BreedController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Breed $breed)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -63,7 +65,7 @@ class BreedController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Breed $breed)
+    public function destroy(User $user)
     {
         //
     }

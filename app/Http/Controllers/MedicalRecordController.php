@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MedicalRecordStoreRequest;
 use App\Models\Medical_record;
+use Faker\Provider\Medical;
 use Illuminate\Http\Request;
 
 class MedicalRecordController extends Controller
@@ -13,6 +15,7 @@ class MedicalRecordController extends Controller
     public function index()
     {
         //
+        return Medical_record::all();
     }
 
     /**
@@ -26,9 +29,11 @@ class MedicalRecordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MedicalRecordStoreRequest $request)
     {
         //
+        $medical_records = Medical_Record::create($request->all());
+        return $medical_records;
     }
 
     /**
@@ -37,6 +42,7 @@ class MedicalRecordController extends Controller
     public function show(Medical_record $medical_record)
     {
         //
+        return $medical_record;
     }
 
     /**
