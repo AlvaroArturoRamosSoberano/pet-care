@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Pets_vaccines extends Model
+class Pet_breed extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['pet_id', 'vaccine_id', 'aplication', 'next_aplication'];
+    protected $fillable = ['pet_id', 'breed_id'];
 
     public function pet()
     {
         return $this->belongsTo(Pet::class);
     }
-    public function vaccine()
+    public function breed()
     {
-        return $this->belongsTo(Vaccine::class);
+        return $this->belongsTo(Breed::class);
     }
 }

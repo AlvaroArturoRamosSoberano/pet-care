@@ -15,6 +15,6 @@ class breed extends Model
 
     public function petBreeds()
     {
-        return $this->hasMany(Pets_breeds::class);
+        return $this->hasMany(Pet_breed::class);
     }
 }

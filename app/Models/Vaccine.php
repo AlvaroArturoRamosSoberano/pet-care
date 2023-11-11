@@ -15,6 +15,6 @@ class Vaccine extends Model
 
     public function petVaccines()
     {
-        return $this->hasMany(Pets_vaccines::class);
+        return $this->hasMany(Pet_vaccine::class);
     }
 }

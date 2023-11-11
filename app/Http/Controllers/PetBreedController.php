@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PetBreeds\StoreRequest;
-use App\Http\Requests\PetBreeds\UpdateRequest;
-use App\Models\Pets_breeds;
+use App\Http\Requests\PetBreed\StoreRequest;
+use App\Http\Requests\PetBreed\UpdateRequest;
+use App\Models\Pet_breed;
 use Illuminate\Http\Request;
 
-class PetsBreedsController extends Controller
+class PetBreedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PetsBreedsController extends Controller
     public function index(Request $request)
     {
         //
-        return Pets_breeds::paginate($request->get("per_page", 10));
+        return Pet_breed::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -32,14 +32,14 @@ class PetsBreedsController extends Controller
     public function store(StoreRequest $request)
     {
         //
-        $pet_breed = Pets_breeds::create($request->validated());
+        $pet_breed = Pet_breed::create($request->validated());
         return $pet_breed;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pets_breeds $pet_breed)
+    public function show(Pet_breed $pet_breed)
     {
         //
         return $pet_breed;
@@ -48,7 +48,7 @@ class PetsBreedsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pets_breeds $pet_breed)
+    public function edit(Pet_breed $pet_breed)
     {
         //
     }
@@ -56,7 +56,7 @@ class PetsBreedsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Pets_breeds $pet_breed)
+    public function update(UpdateRequest $request, Pet_breed $pet_breed)
     {
         //
         $pet_breed->update($request->validated());
@@ -69,7 +69,7 @@ class PetsBreedsController extends Controller
     public function destroy($id)
     {
         //
-        $pet_breed = Pets_breeds::find($id);
+        $pet_breed = Pet_breed::find($id);
         if (is_null($pet_breed)) {
             return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
         } else {

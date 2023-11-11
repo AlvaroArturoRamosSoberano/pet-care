@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pets_breeds', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('pet_id')->constrained();
-            $table->foreignId('breed_id')->constrained();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        Schema::rename('pets_vaccines', 'pet_vaccines');
+        Schema::rename('pet_breed', 'pet_breeds');
     }
 
     /**
@@ -25,6 +20,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pets_breeds');
+        Schema::rename('pet_vaccine', 'pet_vaccines');
+        Schema::rename('pet_breed', 'pet_breeds');
     }
 };

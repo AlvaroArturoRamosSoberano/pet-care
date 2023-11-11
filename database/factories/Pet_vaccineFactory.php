@@ -7,9 +7,9 @@ use App\Models\Vaccine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pets_vaccines>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pet_vaccine>
  */
-class Pets_vaccinesFactory extends Factory
+class Pet_vaccineFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PetVaccines\StoreRequest;
-use App\Http\Requests\PetVaccines\UpdateRequest;
-use App\Models\Pets_vaccines;
+use App\Http\Requests\PetVaccine\StoreRequest;
+use App\Http\Requests\PetVaccine\UpdateRequest;
+use App\Models\Pet_vaccine;
 use Illuminate\Http\Request;
 
-class PetsVaccinesController extends Controller
+class PetVaccineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PetsVaccinesController extends Controller
     public function index(Request $request)
     {
         //
-        return Pets_vaccines::paginate($request->get("per_page", 10));
+        return Pet_vaccine::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -32,14 +32,14 @@ class PetsVaccinesController extends Controller
     public function store(StoreRequest $request)
     {
         //
-        $pet_vaccine = Pets_vaccines::create($request->validated());
+        $pet_vaccine = Pet_vaccine::create($request->validated());
         return $pet_vaccine;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pets_vaccines $pet_vaccine)
+    public function show(Pet_vaccine $pet_vaccine)
     {
         //
         return  $pet_vaccine;
@@ -48,7 +48,7 @@ class PetsVaccinesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pets_vaccines $pet_vaccine)
+    public function edit(Pet_vaccine $pet_vaccine)
     {
         //
     }
@@ -56,7 +56,7 @@ class PetsVaccinesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Pets_vaccines $pet_vaccine)
+    public function update(UpdateRequest $request, Pet_vaccine $pet_vaccine)
     {
         //
         $pet_vaccine->update($request->validated());
@@ -69,7 +69,7 @@ class PetsVaccinesController extends Controller
     public function destroy($id)
     {
         //
-        $pet_vaccine = Pets_vaccines::find($id);
+        $pet_vaccine = Pet_vaccine::find($id);
         if (is_null($pet_vaccine)) {
             return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
         } else {

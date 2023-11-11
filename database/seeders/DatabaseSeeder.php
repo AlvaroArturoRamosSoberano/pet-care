@@ -5,13 +5,13 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Breed;
-use App\Models\Client;
+use App\Models\Customer;
 use App\Models\Disease;
 use App\Models\Medical_record;
 use App\Models\Pet;
 use App\Models\Pet_detail;
-use App\Models\Pets_breeds;
-use App\Models\Pets_vaccines;
+use App\Models\Pet_breed;
+use App\Models\Pet_vaccine;
 use App\Models\Specie;
 use App\Models\Vaccine;
 use Illuminate\Database\Seeder;
@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
         Vaccine::factory()->times(20)->create();
         Disease::factory()->times(20)->create();
         Specie::factory()->times(20)->create();
-        Client::factory()->times(20)->create();
+        Customer::factory()->times(20)->create();
         Pet::factory(20)->create()->each(function ($pet) {
-            $client = Client::inRandomOrder()->first();
+            $client = Customer::inRandomOrder()->first();
             $pet->update(['client_id' => $client->id]);
         });
 
@@ -45,23 +45,23 @@ class DatabaseSeeder extends Seeder
             $petDetail->save();
         });
 
-        Pets_breeds::factory()->times(20)->create()->each(function ($petsBreed) {
+        Pet_breed::factory()->times(20)->create()->each(function ($petBreed) {
             // Personaliza los registros si es necesario
             $pet = Pet::inRandomOrder()->first(); // Obtiene una mascota aleatoria
             $breed = Breed::inRandomOrder()->first(); // Obtiene una raza aleatoria
 
-            $petsBreed->pet_id = $pet->id;
-            $petsBreed->breed_id = $breed->id;
-            $petsBreed->save();
+            $petBreed->pet_id = $pet->id;
+            $petBreed->breed_id = $breed->id;
+            $petBreed->save();
         });
 
-        Pets_vaccines::factory()->times(20)->create()->each(function ($petsVaccine) {
+        Pet_vaccine::factory()->times(20)->create()->each(function ($petVaccine) {
             $pet = Pet::inRandomOrder()->first();
             $vaccine = Vaccine::inRandomOrder()->first();
 
-            $petsVaccine->pet_id = $pet->id;
-            $petsVaccine->vaccine_id = $vaccine->id;
-            $petsVaccine->save();
+            $petVaccine->pet_id = $pet->id;
+            $petVaccine->vaccine_id = $vaccine->id;
+            $petVaccine->save();
         });
         \App\Models\User::factory(10)->create();
 

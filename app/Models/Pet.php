@@ -26,13 +26,13 @@ class Pet extends Model
     {
         return $this->hasMany(Pet_detail::class);
     }
-    public function petsVaccines()
+    public function petVaccines()
     {
-        return $this->hasMany(Pets_vaccines::class);
+        return $this->hasMany(Pet_vaccine::class);
     }
-    public function petsBreeds()
+    public function petBreeds()
     {
-        return $this->hasMany(Pets_breeds::class);
+        return $this->hasMany(Pet_breed::class);
     }
     public function medical_records()
     {
