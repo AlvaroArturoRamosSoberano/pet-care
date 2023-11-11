@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PetStoreRequest;
+use App\Http\Requests\Pets\StoreRequest;
+use App\Http\Requests\Pets\UpdateRequest;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,10 @@ class PetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Pet::all();
+        return Pet::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -28,11 +29,11 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PetStoreRequest $request)
+    public function store(StoreRequest $request)
     {
         //
-        $pets = Pet::create($request->validated());
-        return $pets;
+        $pet = Pet::create($request->validated());
+        return $pet;
     }
 
     /**
@@ -55,16 +56,25 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pet $pet)
+    public function update(UpdateRequest $request, Pet $pet)
     {
         //
+        $pet->update($request->validated());
+        return $pet;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pet $pet)
+    public function destroy($id)
     {
         //
+        $pet = Pet::find($id);
+        if (is_null($pet)) {
+            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
+        } else {
+            $pet->delete();
+            return ('Eliminado con éxito');
+        }
     }
 }

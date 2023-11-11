@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DiseaseStoreRequest;
+use App\Http\Requests\Diseases\StoreRequest;
+use App\Http\Requests\Diseases\UpdateRequest;
 use App\Models\Disease;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,10 @@ class DiseaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Disease::all();
+        return Disease::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -28,11 +29,11 @@ class DiseaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DiseaseStoreRequest $request)
+    public function store(StoreRequest $request)
     {
         //
-        $diseases = Disease::create($request->validated());
-        return $diseases;
+        $disease = Disease::create($request->validated());
+        return $disease;
     }
 
     /**
@@ -55,16 +56,25 @@ class DiseaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Disease $disease)
+    public function update(UpdateRequest $request, Disease $disease)
     {
         //
+        $disease->update($request->validated());
+        return $disease;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Disease $disease)
+    public function destroy($id)
     {
         //
+        $disease = Disease::find($id);
+        if (is_null($disease)) {
+            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
+        } else {
+            $disease->delete();
+            return ('Eliminado con éxito');
+        }
     }
 }

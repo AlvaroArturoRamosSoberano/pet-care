@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Species;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PetBreedStoreRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,8 +15,11 @@ class PetBreedStoreRequest extends FormRequest
     {
         return [
             //
-            'pet_id' => ['required','numeric','exists:App\Models\Pet,id'],
-            'breed_id' => ['required','numeric','exists:App\Models\Breed,id'],
+            'name' => [
+                'required',
+                'unique:App\Models\Specie,name',
+                'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'
+            ]
         ];
     }
 }

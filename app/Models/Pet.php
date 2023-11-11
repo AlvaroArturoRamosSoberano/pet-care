@@ -12,11 +12,11 @@ class Pet extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['pet_name', 'birthday', 'specie_id', 'hair_color', 'image_path', 'client_id'];
+    protected $fillable = ['pet_name', 'birthday', 'specie_id', 'hair_color', 'image_path', 'customer_id'];
 
-    public function client()
+    public function customer()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Customer::class);
     }
     public function species()
     {

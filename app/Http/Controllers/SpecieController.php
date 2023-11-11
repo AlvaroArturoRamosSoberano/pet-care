@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Species\StoreRequest;
+use App\Http\Requests\Species\UpdateRequest;
 use App\Models\Specie;
 use Illuminate\Http\Request;
 
@@ -10,10 +12,10 @@ class SpecieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Specie::all();
+        return Specie::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -27,24 +29,26 @@ class SpecieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         //
+        $species = Specie::create($request->validated());
+        return $species;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Specie $specie)
+    public function show(Specie $species)
     {
         //
-        return $specie;
+        return $species;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Specie $specie)
+    public function edit(Specie $species)
     {
         //
     }
@@ -52,16 +56,25 @@ class SpecieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Specie $specie)
+    public function update(UpdateRequest $request, Specie $species)
     {
         //
+        $species->update($request->validated());
+        return $species;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Specie $specie)
+    public function destroy($id)
     {
         //
+        $species = Specie::find($id);
+        if (is_null($species)) {
+            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
+        } else {
+            $species->delete();
+            return ('Eliminado con éxito');
+        }
     }
 }

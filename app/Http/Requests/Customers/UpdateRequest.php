@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Customers;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
-class ClientStoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -33,7 +35,7 @@ class ClientStoreRequest extends FormRequest
                 'required',
                 'email',
                 'max:50',
-                'unique:App\Models\Client,email',
+                Rule::unique('customers', 'email')->ignore($this->customer->id)
             ],
             'password' => [
                 'required',
@@ -43,12 +45,11 @@ class ClientStoreRequest extends FormRequest
                 'required',
                 'numeric',
                 'min:10',
-                'unique:App\Models\Client,phone_number',
+                Rule::unique('customers', 'phone_number')->ignore($this->customer->id)
             ],
             'address' => [
                 'required',
                 'string',
-                'min:50',
             ],
             'image_path' => [
                 'required',

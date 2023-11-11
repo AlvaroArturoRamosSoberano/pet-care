@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Breeds\StoreRequest;
-use App\Http\Requests\Breeds\UpdateRequest;
-use App\Models\Breed;
+use App\Http\Requests\Customers\StoreRequest;
+use App\Http\Requests\Customers\UpdateRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class BreedController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class BreedController extends Controller
     public function index(Request $request)
     {
         //
-        return Breed::paginate($request->get("per_page", 10));
+        return Customer::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -32,23 +32,23 @@ class BreedController extends Controller
     public function store(StoreRequest $request)
     {
         //
-        $breed = Breed::create($request->validated());
-        return $breed;
+        $customer = Customer::create($request->validated());
+        return $customer;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Breed $breed)
+    public function show(Customer $customer)
     {
         //
-        return $breed;
+        return $customer;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Breed $breed)
+    public function edit(Customer $customer)
     {
         //
     }
@@ -56,11 +56,11 @@ class BreedController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Breed $breed)
+    public function update(UpdateRequest $request, Customer $customer)
     {
         //
-        $breed->update($request->validated());
-        return $breed;
+        $customer->update($request->validated());
+        return $customer;
     }
 
     /**
@@ -69,11 +69,11 @@ class BreedController extends Controller
     public function destroy($id)
     {
         //
-        $breed = Breed::find($id);
-        if (is_null($breed)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operacón"], 404);
+        $customer = Customer::find($id);
+        if (is_null($customer)) {
+            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
         } else {
-            $breed->delete();
+            $customer->delete();
             return ('Eliminado con éxito');
         }
     }

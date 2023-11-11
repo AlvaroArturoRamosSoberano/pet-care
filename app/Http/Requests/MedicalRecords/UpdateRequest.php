@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\MedicalRecords;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MedicalRecordStoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

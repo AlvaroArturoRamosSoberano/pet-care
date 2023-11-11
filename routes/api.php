@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BreedController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DiseaseController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PetController;
@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('breeds', BreedController::class);
-Route::apiResource('clients',ClientController::class);
+Route::apiResource('customers',CustomerController::class);
 Route::apiResource('diseases', DiseaseController::class);
 Route::apiResource('medical-records', MedicalRecordController::class);
 Route::apiResource('pets', PetController::class);

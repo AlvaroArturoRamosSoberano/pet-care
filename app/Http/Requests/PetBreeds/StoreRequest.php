@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\PetBreeds;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VaccineStoreRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,7 +15,8 @@ class VaccineStoreRequest extends FormRequest
     {
         return [
             //
-            'name' => ['required', 'unique:App\Models\Vaccine,name','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
+            'pet_id' => ['required','numeric','exists:App\Models\Pet,id'],
+            'breed_id' => ['required','numeric','exists:App\Models\Breed,id'],
         ];
     }
 }

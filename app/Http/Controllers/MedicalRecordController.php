@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MedicalRecordStoreRequest;
+use App\Http\Requests\MedicalRecords\StoreRequest;
+use App\Http\Requests\MedicalRecords\UpdateRequest;
 use App\Models\Medical_record;
 use Faker\Provider\Medical;
 use Illuminate\Http\Request;
@@ -12,10 +13,10 @@ class MedicalRecordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Medical_record::all();
+        return Medical_record::paginate($request->get("per_page", 10));
     }
 
     /**
@@ -29,11 +30,11 @@ class MedicalRecordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MedicalRecordStoreRequest $request)
+    public function store(StoreRequest $request)
     {
         //
-        $medical_records = Medical_Record::create($request->all());
-        return $medical_records;
+        $medical_record = Medical_Record::create($request->all());
+        return $medical_record;
     }
 
     /**
@@ -56,16 +57,25 @@ class MedicalRecordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Medical_record $medical_record)
+    public function update(UpdateRequest $request, Medical_record $medical_record)
     {
         //
+        $medical_record->update($request->all());
+        return $medical_record;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Medical_record $medical_record)
+    public function destroy($id)
     {
         //
+        $medical_record = Medical_record::find($id);
+        if (is_null($medical_record)) {
+            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 0);
+        } else {
+            $medical_record->delete();
+            return ('Eliminado con éxito');
+        }
     }
 }
