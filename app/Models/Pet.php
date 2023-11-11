@@ -18,13 +18,17 @@ class Pet extends Model
     {
         return $this->belongsTo(Customer::class);
     }
-    public function species()
+    public function specie()
     {
         return $this->belongsTo(Specie::class);
     }
     public function petDetails()
     {
         return $this->hasMany(Pet_detail::class);
+    }
+    public function vaccines()
+    {
+        return $this->belongsToMany(Vaccines::class,'pet_vaccines');
     }
     public function petVaccines()
     {

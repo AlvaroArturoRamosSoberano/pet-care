@@ -17,4 +17,8 @@ class Vaccine extends Model
     {
         return $this->hasMany(Pet_vaccine::class);
     }
+    public function pets()
+    {
+        return $this->hasMany(Pets::class, 'pet_vaccines');
+    }
 }
