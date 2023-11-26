@@ -16,7 +16,7 @@ class StoreRequest extends FormRequest
         return [
             //
             'name' => ['required', 'unique:App\Models\Disease,name', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/', 'unique:App\Models\Disease,name'],
-            'description' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/', 'max:255'],
+            'description' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\,\.]+$/', 'max:255'],
             'symptom' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
         ];
     }

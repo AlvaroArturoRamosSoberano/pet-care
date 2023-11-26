@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PetBreed\StoreRequest;
 use App\Http\Requests\PetBreed\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Pet_breed;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PetBreedController extends Controller
     public function index(Request $request)
     {
         //
-        return Pet_breed::paginate($request->get("per_page", 10));
+        $pet_breed = Pet_breed::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Peticion ejecutada con éxito', 200, $pet_breed);
     }
 
     /**
@@ -33,7 +35,7 @@ class PetBreedController extends Controller
     {
         //
         $pet_breed = Pet_breed::create($request->validated());
-        return $pet_breed;
+        return ApiResponse::success('Recurso creado con éxito', 201, $pet_breed);
     }
 
     /**
@@ -42,7 +44,8 @@ class PetBreedController extends Controller
     public function show(Pet_breed $pet_breed)
     {
         //
-        return $pet_breed;
+        $pet_breed = Pet_breed::find($pet_breed);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $pet_breed);
     }
 
     /**
@@ -60,21 +63,16 @@ class PetBreedController extends Controller
     {
         //
         $pet_breed->update($request->validated());
-        return $pet_breed;
+        return ApiResponse::success('Recurso actualizado con éxito', 200, $pet_breed);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Pet_breed $pet_breed)
     {
         //
-        $pet_breed = Pet_breed::find($id);
-        if (is_null($pet_breed)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $pet_breed->delete();
-            return ('Eliminado con éxito');
-        }
+        $pet_breed->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

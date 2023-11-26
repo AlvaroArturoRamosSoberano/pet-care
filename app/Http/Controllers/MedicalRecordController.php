@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MedicalRecords\StoreRequest;
 use App\Http\Requests\MedicalRecords\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Medical_record;
 use Faker\Provider\Medical;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class MedicalRecordController extends Controller
     public function index(Request $request)
     {
         //
-        return Medical_record::paginate($request->get("per_page", 10));
+        $medical_records = Medical_record::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, $medical_records);
     }
 
     /**
@@ -33,8 +35,8 @@ class MedicalRecordController extends Controller
     public function store(StoreRequest $request)
     {
         //
-        $medical_record = Medical_Record::create($request->all());
-        return $medical_record;
+        $medical_record = Medical_Record::create($request->validated());
+        return ApiResponse::success('Recurso creado exitosamente', 201, $medical_record);
     }
 
     /**
@@ -43,7 +45,8 @@ class MedicalRecordController extends Controller
     public function show(Medical_record $medical_record)
     {
         //
-        return $medical_record;
+        $medical_record = Medical_Record::find($medical_record);
+        return ApiResponse::success('Recurso encontrado exitosamente', 200, $medical_record);
     }
 
     /**
@@ -60,22 +63,17 @@ class MedicalRecordController extends Controller
     public function update(UpdateRequest $request, Medical_record $medical_record)
     {
         //
-        $medical_record->update($request->all());
-        return $medical_record;
+        $medical_record->update($request->validated());
+        return ApiResponse::success('Recurso actualizado correctamente', 200, $medical_record);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Medical_record $medical_record)
     {
         //
-        $medical_record = Medical_record::find($id);
-        if (is_null($medical_record)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 0);
-        } else {
-            $medical_record->delete();
-            return ('Eliminado con éxito');
-        }
+        $medical_record->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

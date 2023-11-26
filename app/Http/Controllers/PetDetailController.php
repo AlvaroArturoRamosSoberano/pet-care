@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PetDetails\StoreRequest;
 use App\Http\Requests\PetDetails\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Pet_detail;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PetDetailController extends Controller
     public function index(Request $request)
     {
         //
-        return Pet_detail::paginate($request->get("per_page", 10));
+        $pet_details = Pet_detail::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutado con éxito', 200, $pet_details);
     }
 
     /**
@@ -33,7 +35,7 @@ class PetDetailController extends Controller
     {
         //
         $pet_detail = Pet_detail::create($request->validated());
-        return $pet_detail;
+        return ApiResponse::success('Recurso creado con éxito', 201, $pet_detail);
     }
 
     /**
@@ -42,7 +44,8 @@ class PetDetailController extends Controller
     public function show(Pet_detail $pet_detail)
     {
         //
-        return $pet_detail;
+        $pet_detail = Pet_detail::find($pet_detail);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $pet_detail);
     }
 
     /**
@@ -60,21 +63,16 @@ class PetDetailController extends Controller
     {
         //
         $pet_detail->update($request->validated());
-        return $pet_detail;
+        return ApiResponse::success('Recurso actualizado con éxito', 200, $pet_detail);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Pet_detail $pet_detail)
     {
         //
-        $pet_detail = Pet_detail::find($id);
-        if (is_null($pet_detail)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $pet_detail->delete();
-            return ('Eliminado con éxito');
-        }
+        $pet_detail->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

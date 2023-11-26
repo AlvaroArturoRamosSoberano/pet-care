@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Vaccines\StoreRequest;
 use App\Http\Requests\Vaccines\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Vaccine;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class VaccineController extends Controller
     public function index(Request $request)
     {
         //
-        return Vaccine::paginate($request->get("per_page", 10));
+        $vaccines = Vaccine::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, $vaccines);
     }
 
     /**
@@ -33,7 +35,7 @@ class VaccineController extends Controller
     {
         //
         $vaccine = Vaccine::create($request->validated());
-        return $vaccine;
+        return ApiResponse::success('Recurso creado con éxito', 201, $vaccine);
     }
 
     /**
@@ -42,7 +44,8 @@ class VaccineController extends Controller
     public function show(Vaccine $vaccine)
     {
         //
-        return $vaccine;
+        $vaccine = Vaccine::find($vaccine);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $vaccine);
     }
 
     /**
@@ -60,21 +63,16 @@ class VaccineController extends Controller
     {
         //
         $vaccine->update($request->validated());
-        return $vaccine;
+        return ApiResponse::success('Recurso actualizado con éxito', 200, $vaccine);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Vaccine $vaccine)
     {
         //
-        $vaccine = Vaccine::find($id);
-        if (is_null($vaccine)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $vaccine->delete();
-            return ('Eliminado con éxito');
-        }
+        $vaccine->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

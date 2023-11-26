@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PetVaccine\StoreRequest;
 use App\Http\Requests\PetVaccine\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Pet_vaccine;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PetVaccineController extends Controller
     public function index(Request $request)
     {
         //
-        return Pet_vaccine::paginate($request->get("per_page", 10));
+        $pet_vaccines = Pet_vaccine::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, $pet_vaccines);
     }
 
     /**
@@ -33,7 +35,7 @@ class PetVaccineController extends Controller
     {
         //
         $pet_vaccine = Pet_vaccine::create($request->validated());
-        return $pet_vaccine;
+        return ApiResponse::success('Recurso creado con éxito', 201, $pet_vaccine);
     }
 
     /**
@@ -42,7 +44,8 @@ class PetVaccineController extends Controller
     public function show(Pet_vaccine $pet_vaccine)
     {
         //
-        return  $pet_vaccine;
+        $pet_vaccine = Pet_vaccine::find($pet_vaccine);
+        return  ApiResponse::success('Recurso encontrado con éxito', 200, $pet_vaccine);
     }
 
     /**
@@ -60,21 +63,16 @@ class PetVaccineController extends Controller
     {
         //
         $pet_vaccine->update($request->validated());
-        return $pet_vaccine;
+        return ApiResponse::success('Recurso actualizado con ëxito', 200, $pet_vaccine);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Pet_vaccine $pet_vaccine)
     {
         //
-        $pet_vaccine = Pet_vaccine::find($id);
-        if (is_null($pet_vaccine)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $pet_vaccine->delete();
-            return ('Eliminado con éxito');
-        }
+        $pet_vaccine->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Species\StoreRequest;
 use App\Http\Requests\Species\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Specie;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class SpecieController extends Controller
     public function index(Request $request)
     {
         //
-        return Specie::paginate($request->get("per_page", 10));
+        $species = Specie::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, $species);
     }
 
     /**
@@ -33,7 +35,7 @@ class SpecieController extends Controller
     {
         //
         $species = Specie::create($request->validated());
-        return $species;
+        return ApiResponse::success('Recurso creado con éxito', 201, $species);
     }
 
     /**
@@ -42,7 +44,8 @@ class SpecieController extends Controller
     public function show(Specie $species)
     {
         //
-        return $species;
+        $species = Specie::find($species);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $species);
     }
 
     /**
@@ -60,21 +63,16 @@ class SpecieController extends Controller
     {
         //
         $species->update($request->validated());
-        return $species;
+        return ApiResponse::success('Recurso actualizado con éxito', 200, $species);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Specie $species)
     {
         //
-        $species = Specie::find($id);
-        if (is_null($species)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $species->delete();
-            return ('Eliminado con éxito');
-        }
+        $species->delete();
+        return ('Eliminado con éxito');
     }
 }

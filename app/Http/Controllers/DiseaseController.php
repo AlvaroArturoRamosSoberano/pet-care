@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Diseases\StoreRequest;
 use App\Http\Requests\Diseases\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Disease;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class DiseaseController extends Controller
     public function index(Request $request)
     {
         //
-        return Disease::paginate($request->get("per_page", 10));
+        $diseases = Disease::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada correctamente', 200, $diseases);
     }
 
     /**
@@ -33,7 +35,7 @@ class DiseaseController extends Controller
     {
         //
         $disease = Disease::create($request->validated());
-        return $disease;
+        return ApiResponse::success('Recurso creado exitosamente', 201, $disease);
     }
 
     /**
@@ -42,7 +44,8 @@ class DiseaseController extends Controller
     public function show(Disease $disease)
     {
         //
-        return $disease;
+        $disease = Disease::find($disease);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $disease);
     }
 
     /**
@@ -60,21 +63,16 @@ class DiseaseController extends Controller
     {
         //
         $disease->update($request->validated());
-        return $disease;
+        return ApiResponse::success('Recurso actualizado correctamente', 200, $disease);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Disease $disease)
     {
         //
-        $disease = Disease::find($id);
-        if (is_null($disease)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $disease->delete();
-            return ('Eliminado con éxito');
-        }
+        $disease->delete();
+        return ApiResponse::success('Eliminado con éxito', 200, $disease);
     }
 }
