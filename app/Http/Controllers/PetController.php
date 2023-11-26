@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Pets\StoreRequest;
 use App\Http\Requests\Pets\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PetController extends Controller
     public function index(Request $request)
     {
         //
-        return Pet::paginate($request->get("per_page", 10));
+        // $pets = Pet::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, Pet::paginate($request->get('per_page', 10)));
     }
 
     /**
@@ -33,7 +35,7 @@ class PetController extends Controller
     {
         //
         $pet = Pet::create($request->validated());
-        return $pet;
+        return ApiResponse::success('Recurso creado con éxito', 201, $pet);
     }
 
     /**
@@ -42,7 +44,8 @@ class PetController extends Controller
     public function show(Pet $pet)
     {
         //
-        return $pet;
+        $pet = Pet::find($pet);
+        return ApiResponse::success('Recurso encontrado con éxito', 200, $pet);
     }
 
     /**
@@ -60,21 +63,16 @@ class PetController extends Controller
     {
         //
         $pet->update($request->validated());
-        return $pet;
+        return ApiResponse::success('Recurso actualizacon con éxito', 200, $pet);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Pet $pet)
     {
         //
-        $pet = Pet::find($id);
-        if (is_null($pet)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $pet->delete();
-            return ('Eliminado con éxito');
-        }
+        $pet->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

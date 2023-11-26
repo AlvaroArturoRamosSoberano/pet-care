@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Breeds\StoreRequest;
 use App\Http\Requests\Breeds\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Breed;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BreedController extends Controller
 {
@@ -15,7 +19,8 @@ class BreedController extends Controller
     public function index(Request $request)
     {
         //
-        return Breed::paginate($request->get("per_page", 10));
+        $breeds = Breed::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada correctamente', 200, $breeds);
     }
 
     /**
@@ -33,7 +38,7 @@ class BreedController extends Controller
     {
         //
         $breed = Breed::create($request->validated());
-        return $breed;
+        return ApiResponse::success('Recurso creado exitosamente', 201, $breed);
     }
 
     /**
@@ -42,7 +47,8 @@ class BreedController extends Controller
     public function show(Breed $breed)
     {
         //
-        return $breed;
+        $breed = Breed::find($breed);
+        return ApiResponse::success('Recurso encontrado exitosamente', 200, $breed);
     }
 
     /**
@@ -60,21 +66,16 @@ class BreedController extends Controller
     {
         //
         $breed->update($request->validated());
-        return $breed;
+        return ApiResponse::success('Recurso actualizado correctamente', 200, $breed);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Breed $breed)
     {
         //
-        $breed = Breed::find($id);
-        if (is_null($breed)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operacón"], 404);
-        } else {
-            $breed->delete();
-            return ('Eliminado con éxito');
-        }
+        $breed->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

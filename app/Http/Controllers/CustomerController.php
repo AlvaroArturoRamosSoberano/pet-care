@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Customers\StoreRequest;
 use App\Http\Requests\Customers\UpdateRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         //
-        return Customer::paginate($request->get("per_page", 10));
+        $customers = Customer::paginate($request->get("per_page", 10));
+        return  ApiResponse::success('Petición ejecutada correctamente', 200, $customers);
     }
 
     /**
@@ -33,7 +35,7 @@ class CustomerController extends Controller
     {
         //
         $customer = Customer::create($request->validated());
-        return $customer;
+        return apiResponse::success('Recurso creado exitosamente', 201, $customer);
     }
 
     /**
@@ -42,7 +44,8 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         //
-        return $customer;
+        $customer = Customer::find($customer);
+        return apiResponse::success('Recurso encontrado exitosamente', 200, $customer);
     }
 
     /**
@@ -60,21 +63,16 @@ class CustomerController extends Controller
     {
         //
         $customer->update($request->validated());
-        return $customer;
+        return ApiResponse::success('Recurso actualizado correctamente', 200, $customer);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Customer $customer)
     {
         //
-        $customer = Customer::find($id);
-        if (is_null($customer)) {
-            return response()->json(["message" => "No se pudo realizar correctamente la operación"], 404);
-        } else {
-            $customer->delete();
-            return ('Eliminado con éxito');
-        }
+        $customer->delete();
+        return ApiResponse::success('Eliminado con éxito', 200);
     }
 }

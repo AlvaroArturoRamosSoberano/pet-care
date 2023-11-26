@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Breeds;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -15,7 +16,11 @@ class UpdateRequest extends FormRequest
     {
         return [
             //
-            'name' => ['required', 'unique:App\Models\Breed,name', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
+            'name' => [
+                'required',
+                Rule::unique('breeds', 'name')->ignore($this->breed->id),
+                'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'
+            ],
         ];
     }
 }
