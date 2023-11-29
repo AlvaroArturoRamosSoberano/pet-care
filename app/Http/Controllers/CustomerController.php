@@ -6,6 +6,7 @@ use App\Http\Requests\Customers\StoreRequest;
 use App\Http\Requests\Customers\UpdateRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Customer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -44,7 +45,9 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         //
-        $customer = Customer::find($customer);
+        /* $customer = DB::table('customers')
+            ->select('name', 'last_name', 'phone_number', 'image_path')->get(); */
+        $customer->load('pets')->get();
         return apiResponse::success('Recurso encontrado exitosamente', 200, $customer);
     }
 

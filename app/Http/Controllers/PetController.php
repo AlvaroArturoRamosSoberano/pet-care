@@ -16,8 +16,9 @@ class PetController extends Controller
     public function index(Request $request)
     {
         //
-        // $pets = Pet::paginate($request->get("per_page", 10));
-        return ApiResponse::success('Petición ejecutada con éxito', 200, Pet::paginate($request->get('per_page', 10)));
+        // $perPage = $request->get("per_page", 10);
+        $pets = Pet::paginate($request->get("per_page", 10));
+        return ApiResponse::success('Petición ejecutada con éxito', 200, $pets);
     }
 
     /**
@@ -44,7 +45,21 @@ class PetController extends Controller
     public function show(Pet $pet)
     {
         //
-        $pet = Pet::find($pet);
+        //$pet = Pet::with(['specie', 'customer', 'petDetails', 'petVaccines:next_aplication,pet_id,id', 'petBreeds', 'medical_records'])->find($pet->id);
+        $pet->load([
+            'specie:name,id',
+            'customer:name,last_name,phone_number,id',
+            'petDetails:age,weight_kg,pet_id',
+            'petVaccines:vaccine_id,aplication,pet_id' => ['vaccine' => function ($query) {
+                $query->select('id', 'name');
+            }],
+            'petBreeds:breed_id,pet_id' => ['breed' => function ($query) {
+                $query->select('id', 'name');
+            }],
+            'medical_records' => ['disease' => function ($query) {
+                $query->select('id', 'name');
+            }]
+        ])->get();
         return ApiResponse::success('Recurso encontrado con éxito', 200, $pet);
     }
 

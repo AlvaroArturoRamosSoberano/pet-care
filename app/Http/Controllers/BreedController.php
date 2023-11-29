@@ -7,9 +7,7 @@ use App\Http\Requests\Breeds\UpdateRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Breed;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class BreedController extends Controller
 {
@@ -38,7 +36,11 @@ class BreedController extends Controller
     {
         //
         $breed = Breed::create($request->validated());
-        return ApiResponse::success('Recurso creado exitosamente', 201, $breed);
+        try {
+            return ApiResponse::success('Recurso creado exitosamente', 201, $breed);
+        } catch (Exception $e) {
+            return ApiResponse::error('K gei', 422, $breed);
+        }
     }
 
     /**
@@ -77,5 +79,10 @@ class BreedController extends Controller
         //
         $breed->delete();
         return ApiResponse::success('Eliminado con éxito', 200);
+    }
+    public function breedPet(Breed $breed)
+    {
+        $breed->with('pets')->get();
+        return ApiResponse::success('Petición ejecutada con éxito', 200);
     }
 }

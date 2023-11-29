@@ -14,4 +14,18 @@ class StoreRequest extends FormRequest
             'name' => ['required', 'unique:App\Models\Breed,name', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
         ];
     }
+    public function attributes()
+    {
+        return [
+            'name' => 'Nombre',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es requerido',
+            'name.unique' => 'El nombre ya esta en uso',
+            'name.regex' => 'Ingrese solo letras',
+        ];
+    }
 }

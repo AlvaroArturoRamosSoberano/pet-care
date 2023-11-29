@@ -38,3 +38,7 @@ Route::apiResource('pet-breeds', PetBreedController::class);
 Route::apiResource('pet-vaccines', PetVaccineController::class);
 Route::apiResource('species', SpecieController::class);
 Route::apiResource('vaccines', VaccineController::class);
+
+
+Route::get('breeds/{breed}/pets', [BreedController::class, 'breedPet'])->name('Hola');
+Route::get('pets/{pet}/species', [PetController::class, 'speciePets'])->name('jeje');
