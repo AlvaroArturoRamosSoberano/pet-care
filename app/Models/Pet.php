@@ -18,7 +18,7 @@ class Pet extends Model
     {
         return $this->belongsTo(Customer::class);
     }
-    public function species()
+    public function specie()
     {
         return $this->belongsTo(Specie::class);
     }
